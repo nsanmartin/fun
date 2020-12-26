@@ -5,3 +5,7 @@
 # latex, pdf
 *.pdf
 *.tex
+
+# ghc
+*.o
+*.hi

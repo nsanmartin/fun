@@ -1,3 +1,6 @@
+module Primes where
+
+import Data.Set(fromList, toList)
 divisible :: Integer -> [Integer] -> Bool
 divisible n ps = or [ mod n k == 0 | k <- filter ((<= n) . (^2)) ps ]
 
@@ -21,13 +24,23 @@ primes_less_than n
           | divisible k ps = push_next (k+1) ps
           | otherwise = let ps' = k:ps in seq ps' push_next (k+1) (k:ps)
 
-is_prime :: Integer -> Bool
-is_prime n =
-  not $ divisible n $ primes_less_than (1 + (truncate $ sqrt $ fromInteger n))
 
-first_divisor :: Integer -> Maybe Integer
-first_divisor n
-  | ps == [] = Nothing
-  | otherwise = Just $ head ps
-  where ps = divs n $ primes_less_than (1 + (truncate $ sqrt $ fromInteger n))
-        divs m ps = filter ((==0) . (mod m)) ps
+
+factors :: Integer -> [Integer]
+factors n
+  | n < 0 = factors (-n)
+  | n < 2 = []
+  | otherwise = reverse $ divs n 2 []
+  where divs m k ps
+          | k == m = if or [elem k ps, ps == []] then k:ps else ps
+          | mod m k == 0 = divs (div m k) k (k:ps)
+          | otherwise = divs n (k+1) ps
+
+
+is_prime :: Integer -> Bool
+is_prime n = length (factors n) == 1
+
+  
+is_prime' :: Integer -> Bool
+is_prime' n =
+  not $ divisible n $ primes_less_than (1 + (truncate $ sqrt $ fromInteger n))
