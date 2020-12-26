@@ -1,0 +1,2 @@
+*normal form*: an expression that cannot be \beta-reduced
+*weak head normal form*: reduced up to the first data constructor.

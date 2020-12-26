@@ -1,3 +1,7 @@
+# emacs
 *~
 \#*\#
 
+# latex, pdf
+*.pdf
+*.tex
