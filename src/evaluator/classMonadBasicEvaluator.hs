@@ -3,7 +3,7 @@ data Term = Const Int | Div Term Term deriving Show
 data M a = M a deriving Show
 
 instance Functor M where
-  fmap f (M a) = M (f a)
+  fmap f m = m >>= \a -> return (f a)
 
 
 instance Applicative M where
